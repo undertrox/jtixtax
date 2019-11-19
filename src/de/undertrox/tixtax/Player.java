@@ -3,7 +3,7 @@ package de.undertrox.tixtax;
 import java.util.Arrays;
 import java.util.List;
 
-public class Player {
+public abstract class Player {
     private Game parentGame;
     private Box color;
     private String name;
@@ -34,19 +34,17 @@ public class Player {
     }
 
     /**
-     * gibt ein 3x3 boolean-Array zurueck, das das "grosse" Spielfeld repraesentiert.
-     * in allen Feldern, die true sind darf gesetzt werden. Bsp:
-     * getActiveFields()[row][col]
+     * gibt ein Array von zweielementigen Arrays zurueck, die jeweils die
+     * Koordinaten des Feldes repraesentieren. Bsp:
+     * getActiveFields() = [[0,0], [2,1]]
+     * das Erste Element ist die Reihe, das zweite die Spalte
      * @return
      */
-    public boolean[][] getActiveFields() {
+    protected int[][] getActiveFields() {
         List<TicTacToe> activeFields = parentGame.getActiveFields();
-        boolean[][] res = new boolean[3][3];
-        for (boolean[] b : res) {
-            Arrays.fill(b, false);
-        }
-        for (TicTacToe field : activeFields) {
-            res[field.getRow()][field.getCol()] = true;
+        int[][] res = new int[activeFields.size()][2];
+        for (int i = 0; i < res.length; i++) {
+            res[i] = new int[]{activeFields.get(i).getRow(), activeFields.get(i).getCol()};
         }
         return res;
     }
@@ -56,7 +54,7 @@ public class Player {
      * format: getBoard()[bigRow][bigCol][smallRow][smallCol]
      * @return
      */
-    public Box[][][][] getBoard() {
+    protected Box[][][][] getBoard() {
         TicTacToe[][] board = parentGame.getBoard();
         Box[][][][] fboard = new Box[3][3][3][3];
         for (int i = 0; i < board.length; i++) {
@@ -67,19 +65,18 @@ public class Player {
         return fboard;
     }
 
-    /**
-     * Setzt ein Kreuz oder Kreis an den eingegebenen Koordinaten und
-     * initiiert den naechsten Zug
-     * @param bigRow
-     * @param bigCol
-     * @param smallRow
-     * @param smallCol
-     */
-    public void play(int bigRow, int bigCol, int smallRow, int smallCol) {
-        parentGame.getBoard()[bigRow][bigCol].setBox(smallRow, smallCol, color);
-        parentGame.nextTurn();
-    }
 
+    /**
+     * This method is called once each turn, returns an Array of the form
+     * [bigRow, bigCol, smallRow, smallCol] which indicates where the player
+     * will set their Cross or Circle
+     */
+    public abstract int[] play(Game game);
+
+
+    public Box getColor() {
+        return color;
+    }
     /**
      * gibt zurueck, ob der Spieler an der entsprechenden Position ein Kreuz oder
      * Kreis setzen kann
@@ -89,7 +86,7 @@ public class Player {
      * @param smallCol
      * @return
      */
-    public boolean canPlay(int bigRow, int bigCol, int smallRow, int smallCol) {
+    protected boolean canSet(int bigRow, int bigCol, int smallRow, int smallCol) {
         return parentGame.isValidMove(bigRow, bigCol, smallRow, smallCol);
     }
 }

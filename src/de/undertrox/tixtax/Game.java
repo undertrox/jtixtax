@@ -10,16 +10,12 @@ public class Game {
     private Player winner;
     private Player currentPlayer;
 
+
+
     /**
      * Initialisiert das Spielfeld mit leeren de.undertrox.tixtax.TicTacToe-Feldern
      *
-     * @param name1: name des 1. Spielers
-     * @param name2: name des 2. Spielers
      */
-    public Game(String name1, String name2) {
-        this(new Player(name1), new Player(name2));
-    }
-
     public Game(Player player1, Player player2) {
         board = new TicTacToe[3][3];
         for (int i = 0; i < board.length; i++) {
@@ -33,6 +29,26 @@ public class Game {
         p2.init(Box.BLUE, this);
         currentPlayer = p1;
     }
+
+    public void playOneTurn() {
+        set(currentPlayer.play(this), currentPlayer);
+        nextTurn();
+    }
+
+    /**
+     * Setzt ein Kreuz oder Kreis an den eingegebenen Koordinaten und
+     * initiiert den naechsten Zug. Wenn der Spieler nicht am Zug ist, wird
+     * ein Fehler erzeugt.
+     * @param c: Koordinaten des Zuges
+     */
+    protected void set(int[] c, Player p) {
+        if (p.isActive()) {
+            getBoard()[c[0]][c[1]].setBox(c[2], c[3], p.getColor());
+        } else {
+            throw new RuntimeException("Tried to Play without being current Player");
+        }
+    }
+
 
     public String draw() {
         String[] res = new String[21];
@@ -187,6 +203,7 @@ public class Game {
 
     private void win(Player p) {
         System.out.println(p + " Won!");
+        winner = p;
     }
 
     /**
@@ -200,6 +217,9 @@ public class Game {
      * @return
      */
     public boolean isValidMove(int bigRow, int bigCol, int smallRow, int smallCol) {
+        if (bigRow > 2 || bigRow < 0 || bigCol > 2 || bigCol < 0 ||
+                smallRow > 2 || smallRow < 0 || smallCol > 2 || smallCol < 0)
+            return false;
         return board[bigRow][bigCol].canSetBox(smallRow, smallCol);
     }
 }

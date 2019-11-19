@@ -92,7 +92,7 @@ public class TicTacToe {
     }
 
     public boolean isActive() {
-        return isActive;
+        return isActive && getTotalState() == Box.EMPTY;
     }
 
     /**
