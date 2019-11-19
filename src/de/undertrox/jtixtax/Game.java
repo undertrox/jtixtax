@@ -1,4 +1,4 @@
-package de.undertrox.tixtax;
+package de.undertrox.jtixtax;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -59,10 +59,8 @@ public class Game {
     private void nextTurn() {
         checkBoxes();
         if (winner != null) {
-            System.out.println("Game ended. " + winner + " won.");
             return;
         } else if (getEmptyFields().size() == 0) {
-            System.out.println("Game ended in a tie. ");
             tie = true;
         }
         if (currentPlayer == p1) {
@@ -70,6 +68,17 @@ public class Game {
         } else {
             currentPlayer = p1;
         }
+    }
+
+    public String status() {
+        if (hasEnded()) {
+            if (winner != null) {
+                 return "Game ended. " + getWinner() + " won.";
+            } else if (tie) {
+                return "Game ended in a tie. ";
+            }
+        }
+        return "Game is running. " + currentPlayer + " is currently playing.";
     }
 
     public TicTacToe[][] getBoard() {

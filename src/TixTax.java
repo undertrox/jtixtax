@@ -1,6 +1,6 @@
-import de.undertrox.tixtax.Game;
-import de.undertrox.tixtax.ai.ConsolePlayer;
-import de.undertrox.tixtax.ai.RandomAI;
+import de.undertrox.jtixtax.Game;
+import de.undertrox.jtixtax.Player;
+import de.undertrox.jtixtax.ai.RandomAI;
 
 public class TixTax {
     public static void main(String[] args) {

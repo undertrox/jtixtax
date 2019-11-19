@@ -1,7 +1,7 @@
-package de.undertrox.tixtax.ai;
+package de.undertrox.jtixtax.ai;
 
-import de.undertrox.tixtax.Game;
-import de.undertrox.tixtax.Player;
+import de.undertrox.jtixtax.Game;
+import de.undertrox.jtixtax.Player;
 
 import java.util.Random;
 

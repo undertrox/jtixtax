@@ -1,4 +1,4 @@
-package de.undertrox.tixtax;
+package de.undertrox.jtixtax;
 
 public enum Box {
     RED,

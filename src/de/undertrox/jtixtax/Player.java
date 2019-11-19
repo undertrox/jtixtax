@@ -1,4 +1,4 @@
-package de.undertrox.tixtax;
+package de.undertrox.jtixtax;
 
 import java.util.List;
 
