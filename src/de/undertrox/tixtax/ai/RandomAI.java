@@ -8,6 +8,7 @@ import java.util.Random;
 public class RandomAI extends Player {
 
     private static Random r = new Random();
+
     public RandomAI(String name) {
         super(name);
     }
@@ -20,7 +21,7 @@ public class RandomAI extends Player {
             bigCol = r.nextInt(3);
             smallRow = r.nextInt(3);
             smallCol = r.nextInt(3);
-        } while (!canSet(bigRow,bigCol,smallRow,smallCol));
-        return new int[] {bigRow,bigCol,smallRow,smallCol};
+        } while (!canSet(bigRow, bigCol, smallRow, smallCol));
+        return new int[]{bigRow, bigCol, smallRow, smallCol};
     }
 }

@@ -36,10 +36,6 @@ public class TicTacToe {
 
     /**
      * Setzt das Feld bei (row, col) auf value
-     *
-     * @param row
-     * @param col
-     * @param value
      */
     public void setBox(int row, int col, Box value) {
         if (isActive) {
@@ -54,10 +50,6 @@ public class TicTacToe {
         } else {
             throw new IllegalArgumentException("Tried to play in an inactive Field");
         }
-    }
-
-    public boolean canSetBox(int row, int col) {
-        return isActive() && boxes[row][col] == Box.EMPTY;
     }
 
     private void checkBoxes() {
@@ -79,8 +71,12 @@ public class TicTacToe {
         }
     }
 
-    public Box[][] toArray() {
-        return boxes;
+    public boolean canSetBox(int row, int col) {
+        return isActive() && boxes[row][col] == Box.EMPTY;
+    }
+
+    public boolean isActive() {
+        return isActive && getTotalState() == Box.EMPTY;
     }
 
     /**
@@ -91,15 +87,15 @@ public class TicTacToe {
         return totalState;
     }
 
-    public boolean isActive() {
-        return isActive && getTotalState() == Box.EMPTY;
-    }
-
     /**
      * aktiviert das Feld
      */
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public Box[][] toArray() {
+        return boxes;
     }
 
     public String toString() {

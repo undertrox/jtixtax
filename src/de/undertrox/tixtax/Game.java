@@ -11,10 +11,8 @@ public class Game {
     private Player currentPlayer;
 
 
-
     /**
      * Initialisiert das Spielfeld mit leeren de.undertrox.tixtax.TicTacToe-Feldern
-     *
      */
     public Game(Player player1, Player player2) {
         board = new TicTacToe[3][3];
@@ -30,6 +28,9 @@ public class Game {
         currentPlayer = p1;
     }
 
+    /**
+     * Fuehrt einen Zug aus
+     */
     public void playOneTurn() {
         set(currentPlayer.play(this), currentPlayer);
         nextTurn();
@@ -39,9 +40,10 @@ public class Game {
      * Setzt ein Kreuz oder Kreis an den eingegebenen Koordinaten und
      * initiiert den naechsten Zug. Wenn der Spieler nicht am Zug ist, wird
      * ein Fehler erzeugt.
+     *
      * @param c: Koordinaten des Zuges
      */
-    protected void set(int[] c, Player p) {
+    private void set(int[] c, Player p) {
         if (p.isActive()) {
             getBoard()[c[0]][c[1]].setBox(c[2], c[3], p.getColor());
         } else {
@@ -49,123 +51,25 @@ public class Game {
         }
     }
 
-
-    public String draw() {
-        String[] res = new String[21];
-        Arrays.fill(res, "");
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                String[] next = board[i][j].draw();
-                for (int k = 0; k < 7; k++) {
-                    res[7 * i + k] += next[k];
-                }
-            }
-        }
-        return Arrays.toString(res)
-                     .replace(", ", "\n")
-                     .replace("[", "")
-                     .replace("]", "")
-                + "\n" +
-                getCurrentPlayer();
-    }
-
-    public Player getWinner() {
-        return winner;
-    }
-
-    /**
-     * Aktiviert das TTT an (row, col).
-     * wenn das TTT schon ausgefuellt ist, werden alle noch nicht ausgefuellten
-     * TTTs aktiviert (TODO)
-     *
-     * @param row
-     * @param col
-     */
-    public void setActive(int row, int col) {
-        if (board[row][col].getTotalState() == Box.EMPTY) {
-            board[row][col].setActive(true);
-        } else {
-            for (TicTacToe field : getEmptyFields()) {
-                field.setActive(true);
-            }
-        }
-    }
-
-    /**
-     * gibt eine Liste mit allen TTTs, in denen noch niemand gewonnen hat
-     * zurueck.
-     *
-     * @return
-     */
-    public List<TicTacToe> getEmptyFields() {
-        List<TicTacToe> res = new ArrayList<>();
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                if (board[i][j].getTotalState() == Box.EMPTY) {
-                    res.add(board[i][j]);
-                }
-            }
-        }
-        return res;
-    }
-
-    /**
-     * gibt alle de.undertrox.tixtax.TicTacToe-Felder zurueck, in die im aktuellen Zug
-     * gesetzt werden kann.
-     */
-    public List<TicTacToe> getActiveFields() {
-        List<TicTacToe> res = new ArrayList<>();
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                if (board[i][j].isActive()) {
-                    res.add(board[i][j]);
-                }
-            }
-        }
-        return res;
-    }
-
-    public TicTacToe[][] getBoard() {
-        return board;
-    }
-
     /**
      * Initiiert den naechsten Zug und gibt den entsprechenden Spieler, der jetzt dran
      * ist, zurueck.
      */
-    public Player nextTurn() {
+    private void nextTurn() {
         checkBoxes();
         if (winner != null) {
             System.out.println("de.undertrox.tixtax.Game ended.");
-            return null;
+            return;
         }
         if (currentPlayer == p1) {
             currentPlayer = p2;
         } else {
             currentPlayer = p1;
         }
-        return getCurrentPlayer();
     }
 
-    public boolean hasEnded() {
-        return winner != null;
-    }
-
-    public Player getCurrentPlayer() {
-        return currentPlayer;
-    }
-
-    /**
-     * deaktiviert alle TTTs, sollte nicht manuell aufgerufen werden.
-     */
-    public void clearActive() {
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                if (board[i][j].isActive()) {
-                    board[i][j].setActive(false);
-                }
-            }
-        }
+    public TicTacToe[][] getBoard() {
+        return board;
     }
 
     private void checkBoxes() {
@@ -206,15 +110,100 @@ public class Game {
         winner = p;
     }
 
+    public String draw() {
+        String[] res = new String[21];
+        Arrays.fill(res, "");
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                String[] next = board[i][j].draw();
+                for (int k = 0; k < 7; k++) {
+                    res[7 * i + k] += next[k];
+                }
+            }
+        }
+        return Arrays.toString(res)
+                     .replace(", ", "\n")
+                     .replace("[", "")
+                     .replace("]", "")
+                + "\n" +
+                getCurrentPlayer();
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public Player getWinner() {
+        return winner;
+    }
+
+    /**
+     * Aktiviert das TTT an (row, col).
+     * wenn das TTT schon ausgefuellt ist, werden alle noch nicht ausgefuellten
+     * TTTs aktiviert
+     */
+    public void setActive(int row, int col) {
+        if (board[row][col].getTotalState() == Box.EMPTY) {
+            board[row][col].setActive(true);
+        } else {
+            for (TicTacToe field : getEmptyFields()) {
+                field.setActive(true);
+            }
+        }
+    }
+
+    /**
+     * gibt eine Liste mit allen TTTs, in denen noch niemand gewonnen hat
+     * zurueck.
+     */
+    private List<TicTacToe> getEmptyFields() {
+        List<TicTacToe> res = new ArrayList<>();
+        for (TicTacToe[] field : board) {
+            for (int j = 0; j < field.length; j++) {
+                if (field[j].getTotalState() == Box.EMPTY) {
+                    res.add(field[j]);
+                }
+            }
+        }
+        return res;
+    }
+
+    /**
+     * gibt alle TicTacToe-Felder zurueck, in die im aktuellen Zug
+     * gesetzt werden kann.
+     */
+    public List<TicTacToe> getActiveFields() {
+        List<TicTacToe> res = new ArrayList<>();
+        for (TicTacToe[] field : board) {
+            for (TicTacToe box : field) {
+                if (box.isActive()) {
+                    res.add(box);
+                }
+            }
+        }
+        return res;
+    }
+
+    public boolean hasEnded() {
+        return winner != null;
+    }
+
+    /**
+     * deaktiviert alle TTTs, sollte nicht manuell aufgerufen werden.
+     */
+    public void clearActive() {
+        for (TicTacToe[] field : board) {
+            for (TicTacToe box : field) {
+                if (box.isActive()) {
+                    box.setActive(false);
+                }
+            }
+        }
+    }
+
     /**
      * gibt zurueck, ob ein Spieler an der entsprechenden Position ein Kreuz oder
      * Kreis setzen koennte
-     *
-     * @param bigRow
-     * @param bigCol
-     * @param smallRow
-     * @param smallCol
-     * @return
      */
     public boolean isValidMove(int bigRow, int bigCol, int smallRow, int smallCol) {
         if (bigRow > 2 || bigRow < 0 || bigCol > 2 || bigCol < 0 ||

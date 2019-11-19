@@ -1,6 +1,5 @@
 package de.undertrox.tixtax;
 
-import java.util.Arrays;
 import java.util.List;
 
 public abstract class Player {
@@ -8,15 +7,15 @@ public abstract class Player {
     private Box color;
     private String name;
 
-    public Player(String name, Box color, Game game) {
-        this.name = name;
-        this.init(color, game);
-    }
-
     public Player(String name) {
         this.name = name;
     }
 
+    /**
+     * initialisiert den Spieler auf dem
+     * Spielfeld game mit der Farbe color. wird automatisch vom Spiel
+     * aufgerufen.
+     */
     public void init(Box color, Game game) {
         this.color = color;
         this.parentGame = game;
@@ -38,7 +37,6 @@ public abstract class Player {
      * Koordinaten des Feldes repraesentieren. Bsp:
      * getActiveFields() = [[0,0], [2,1]]
      * das Erste Element ist die Reihe, das zweite die Spalte
-     * @return
      */
     protected int[][] getActiveFields() {
         List<TicTacToe> activeFields = parentGame.getActiveFields();
@@ -52,7 +50,6 @@ public abstract class Player {
     /**
      * Gibt eine komplette Repraesentation des Spielfeldes zurueck
      * format: getBoard()[bigRow][bigCol][smallRow][smallCol]
-     * @return
      */
     protected Box[][][][] getBoard() {
         TicTacToe[][] board = parentGame.getBoard();
@@ -77,14 +74,10 @@ public abstract class Player {
     public Box getColor() {
         return color;
     }
+
     /**
      * gibt zurueck, ob der Spieler an der entsprechenden Position ein Kreuz oder
      * Kreis setzen kann
-     * @param bigRow
-     * @param bigCol
-     * @param smallRow
-     * @param smallCol
-     * @return
      */
     protected boolean canSet(int bigRow, int bigCol, int smallRow, int smallCol) {
         return parentGame.isValidMove(bigRow, bigCol, smallRow, smallCol);
