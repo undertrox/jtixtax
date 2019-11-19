@@ -53,6 +53,18 @@ public class TicTacToe {
     }
 
     private void checkBoxes() {
+        boolean full = true;
+        for (Box[] bs :
+                boxes) {
+            for (Box b : bs) {
+                if (b == Box.EMPTY) {
+                    full = false;
+                }
+            }
+        }
+        if (full) {
+            totalState = Box.TIE;
+        }
         for (int i = 0; i < boxes.length; i++) {
             if (boxes[i][0] == boxes[i][1] && boxes[i][1] == boxes[i][2]
                     && boxes[i][0] != Box.EMPTY) {
@@ -69,6 +81,7 @@ public class TicTacToe {
                 && boxes[2][0] != Box.EMPTY) {
             totalState = boxes[0][2];
         }
+
     }
 
     public boolean canSetBox(int row, int col) {

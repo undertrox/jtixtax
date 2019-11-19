@@ -12,6 +12,5 @@ public class TixTax {
                 System.err.println(e);
             }
         }
-        System.out.println(g.getWinner());
     }
 }

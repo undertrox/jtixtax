@@ -9,6 +9,7 @@ public class Game {
     private Player p1, p2;
     private Player winner;
     private Player currentPlayer;
+    private boolean tie;
 
 
     /**
@@ -58,8 +59,11 @@ public class Game {
     private void nextTurn() {
         checkBoxes();
         if (winner != null) {
-            System.out.println("de.undertrox.tixtax.Game ended.");
+            System.out.println("Game ended. " + winner + " won.");
             return;
+        } else if (getEmptyFields().size() == 0) {
+            System.out.println("Game ended in a tie. ");
+            tie = true;
         }
         if (currentPlayer == p1) {
             currentPlayer = p2;
@@ -76,23 +80,43 @@ public class Game {
         for (int i = 0; i < board.length; i++) {
             if (board[i][0].getTotalState() == board[i][1].getTotalState()
                     && board[i][1].getTotalState() == board[i][2].getTotalState()
-                    && board[i][1].getTotalState() != Box.EMPTY) {
+                    && board[i][1].getTotalState() != Box.EMPTY
+                    && board[i][1].getTotalState() != Box.TIE) {
                 win(board[i][0].getTotalState());
             } else if (board[0][i].getTotalState() == board[1][i].getTotalState()
                     && board[1][i].getTotalState() == board[2][i].getTotalState()
-                    && board[1][i].getTotalState() != Box.EMPTY) {
+                    && board[1][i].getTotalState() != Box.EMPTY
+                    && board[1][i].getTotalState() != Box.TIE) {
                 win(board[0][i].getTotalState());
             }
         }
         if (board[0][0].getTotalState() == board[1][1].getTotalState() &&
                 board[1][1].getTotalState() == board[2][2].getTotalState()
-                && board[0][0].getTotalState() != Box.EMPTY) {
+                && board[0][0].getTotalState() != Box.EMPTY
+                && board[0][0].getTotalState() != Box.TIE) {
             win(board[0][0].getTotalState());
         } else if (board[0][2].getTotalState() == board[1][1].getTotalState()
                 && board[1][1].getTotalState() == board[2][0].getTotalState()
-                && board[1][1].getTotalState() != Box.EMPTY) {
+                && board[1][1].getTotalState() != Box.EMPTY
+                && board[1][1].getTotalState() != Box.TIE) {
             win(board[2][0].getTotalState());
         }
+    }
+
+    /**
+     * gibt eine Liste mit allen TTTs, in denen noch niemand gewonnen hat
+     * zurueck.
+     */
+    private List<TicTacToe> getEmptyFields() {
+        List<TicTacToe> res = new ArrayList<>();
+        for (TicTacToe[] field : board) {
+            for (int j = 0; j < field.length; j++) {
+                if (field[j].getTotalState() == Box.EMPTY) {
+                    res.add(field[j]);
+                }
+            }
+        }
+        return res;
     }
 
     private void win(Box color) {
@@ -106,7 +130,6 @@ public class Game {
     }
 
     private void win(Player p) {
-        System.out.println(p + " Won!");
         winner = p;
     }
 
@@ -130,7 +153,11 @@ public class Game {
     }
 
     public Player getCurrentPlayer() {
-        return currentPlayer;
+        return hasEnded() ? null : currentPlayer;
+    }
+
+    public boolean hasEnded() {
+        return winner != null || tie;
     }
 
     public Player getWinner() {
@@ -153,22 +180,6 @@ public class Game {
     }
 
     /**
-     * gibt eine Liste mit allen TTTs, in denen noch niemand gewonnen hat
-     * zurueck.
-     */
-    private List<TicTacToe> getEmptyFields() {
-        List<TicTacToe> res = new ArrayList<>();
-        for (TicTacToe[] field : board) {
-            for (int j = 0; j < field.length; j++) {
-                if (field[j].getTotalState() == Box.EMPTY) {
-                    res.add(field[j]);
-                }
-            }
-        }
-        return res;
-    }
-
-    /**
      * gibt alle TicTacToe-Felder zurueck, in die im aktuellen Zug
      * gesetzt werden kann.
      */
@@ -182,10 +193,6 @@ public class Game {
             }
         }
         return res;
-    }
-
-    public boolean hasEnded() {
-        return winner != null;
     }
 
     /**
