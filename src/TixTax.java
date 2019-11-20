@@ -14,13 +14,6 @@ public class TixTax {
         while (!g.hasEnded()) {
             g.playOneTurn();
             System.out.println(g.draw());
-            System.out.println();
-            try {
-
-                System.in.read();
-            } catch (IOException e) {
-
-            }
         }
         System.out.println(g.status());
     }
