@@ -61,9 +61,12 @@ public class Game {
     private void nextTurn() {
         checkBoxes();
         if (winner != null) {
+            clearActive();
             return;
         } else if (getEmptyFields().size() == 0) {
             tie = true;
+            clearActive();
+            return;
         }
         if (currentPlayer == p1) {
             currentPlayer = p2;
