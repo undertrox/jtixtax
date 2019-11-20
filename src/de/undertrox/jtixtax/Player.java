@@ -1,7 +1,5 @@
 package de.undertrox.jtixtax;
 
-import java.util.List;
-
 public abstract class Player {
     private Game parentGame;
     private Box color;
@@ -30,21 +28,6 @@ public abstract class Player {
      */
     public boolean isActive() {
         return this == parentGame.getCurrentPlayer();
-    }
-
-    /**
-     * gibt ein Array von zweielementigen Arrays zurueck, die jeweils die
-     * Koordinaten des Feldes repraesentieren. Bsp:
-     * getActiveFields() = [[0,0], [2,1]]
-     * das Erste Element ist die Reihe, das zweite die Spalte
-     */
-    protected int[][] getActiveFields() {
-        List<TicTacToe> activeFields = parentGame.getActiveFields();
-        int[][] res = new int[activeFields.size()][2];
-        for (int i = 0; i < res.length; i++) {
-            res[i] = new int[]{activeFields.get(i).getRow(), activeFields.get(i).getCol()};
-        }
-        return res;
     }
 
     /**

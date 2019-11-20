@@ -42,8 +42,6 @@ public class TicTacToe {
             if (boxes[row][col] == Box.EMPTY) {
                 boxes[row][col] = value;
                 checkBoxes();
-                parentGame.clearActive();
-                parentGame.setActive(row, col);
             } else {
                 throw new IllegalArgumentException("Tried to change a full box");
             }

@@ -18,7 +18,7 @@ public class CommandLinePlayer extends Player {
     @Override
     public int[] play(Game g) {
         System.out.println(g.draw());
-        int[][] active = getActiveFields();
+        int[][] active = g.getActiveFieldCoords();
         int bigRow, bigCol;
         if (active.length > 1) {
             bigRow = getInt("Enter BigRow (0-2): ");
