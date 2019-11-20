@@ -116,17 +116,18 @@ public class TicTacToe {
     }
 
     public String[] draw() {
-        if (isActive()) {
-            return new String[]{
-                    "╔════════════╗",
-                    "║ " + str(boxes[0][0]) + " │ " + str(boxes[0][1]) + " │ " + str(boxes[0][2]) + " ║",
-                    "╟────────────╢",
-                    "║ " + str(boxes[1][0]) + " │ " + str(boxes[1][1]) + " │ " + str(boxes[1][2]) + " ║",
-                    "╟────────────╢",
-                    "║ " + str(boxes[2][0]) + " │ " + str(boxes[2][1]) + " │ " + str(boxes[2][2]) + " ║",
-                    "╚════════════╝"
-            };
-        } else {
+        if (getTotalState() == Box.EMPTY || getTotalState() == Box.TIE) {
+            if (isActive()) {
+                return new String[]{
+                        "╔════════════╗",
+                        "║ " + str(boxes[0][0]) + " │ " + str(boxes[0][1]) + " │ " + str(boxes[0][2]) + " ║",
+                        "╟────────────╢",
+                        "║ " + str(boxes[1][0]) + " │ " + str(boxes[1][1]) + " │ " + str(boxes[1][2]) + " ║",
+                        "╟────────────╢",
+                        "║ " + str(boxes[2][0]) + " │ " + str(boxes[2][1]) + " │ " + str(boxes[2][2]) + " ║",
+                        "╚════════════╝"
+                };
+            }
             return new String[]{
                     "┌────────────┐",
                     "│ " + str(boxes[0][0]) + " │ " + str(boxes[0][1]) + " │ " + str(boxes[0][2]) + " │",
@@ -136,7 +137,29 @@ public class TicTacToe {
                     "│ " + str(boxes[2][0]) + " │ " + str(boxes[2][1]) + " │ " + str(boxes[2][2]) + " │",
                     "└────────────┘"
             };
+
         }
+        if (getTotalState() == Box.RED) {
+            return new String[]{
+                    "┌────────────┐",
+                    "│   ____    │",
+                    "│ /      \\  │",
+                    "│ |      |  │",
+                    "│ |      |  │",
+                    "│  \\____/   │",
+                    "└────────────┘"
+            };
+        }
+        return new String[]{
+                "┌────────────┐",
+                "│   \\   /   │",
+                "│    \\ /    │",
+                "│     X     │",
+                "│    / \\    │",
+                "│   /   \\   │",
+                "└────────────┘"
+        };
+
     }
 
     private String str(Box b) {
