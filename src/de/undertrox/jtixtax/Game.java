@@ -46,7 +46,7 @@ public class Game {
      */
     private void set(int[] c, Player p) {
         if (p.isActive()) {
-            getBoard()[c[0]][c[1]].setBox(c[2], c[3], p.getColor());
+            getFullBoard()[c[0]][c[1]].setBox(c[2], c[3], p.getColor());
         } else {
             throw new RuntimeException("Tried to Play without being current Player");
         }
@@ -81,7 +81,7 @@ public class Game {
         return "Game is running. " + currentPlayer + " is currently playing.";
     }
 
-    public TicTacToe[][] getBoard() {
+    protected TicTacToe[][] getFullBoard() {
         return board;
     }
 
@@ -171,6 +171,21 @@ public class Game {
 
     public Player getWinner() {
         return winner;
+    }
+
+    /**
+     * Gibt eine komplette Repraesentation des Spielfeldes zurueck
+     * format: getBoard()[bigRow][bigCol][smallRow][smallCol]
+     */
+    protected Box[][][][] getBoard() {
+        TicTacToe[][] board = getFullBoard();
+        Box[][][][] fboard = new Box[3][3][3][3];
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                fboard[i][j] = board[i][j].toArray();
+            }
+        }
+        return fboard;
     }
 
     /**

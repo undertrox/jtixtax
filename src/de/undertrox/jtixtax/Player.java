@@ -48,22 +48,6 @@ public abstract class Player {
     }
 
     /**
-     * Gibt eine komplette Repraesentation des Spielfeldes zurueck
-     * format: getBoard()[bigRow][bigCol][smallRow][smallCol]
-     */
-    protected Box[][][][] getBoard() {
-        TicTacToe[][] board = parentGame.getBoard();
-        Box[][][][] fboard = new Box[3][3][3][3];
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                fboard[i][j] = board[i][j].toArray();
-            }
-        }
-        return fboard;
-    }
-
-
-    /**
      * This method is called once each turn, returns an Array of the form
      * [bigRow, bigCol, smallRow, smallCol] which indicates where the player
      * will set their Cross or Circle
