@@ -6,19 +6,16 @@ import java.util.Arrays;
 
 public class Cell {
     private Box[][] boxes;
-    private Game parentGame;
     private int row, col;
     private boolean isActive;
     private Box totalState;
 
     /**
-     * Initialisiert ein neues, leeres TTT, das zum Spiel game gehoert.
+     * Initialisiert eine leere Cell
      *
-     * @param game Spiel, zu dem das TTT gehoert
      */
-    public Cell(Game game, int row, int col) {
+    public Cell(int row, int col) {
         boxes = new Box[3][3];
-        parentGame = game;
         for (Box[] box : boxes) {
             Arrays.fill(box, Box.EMPTY);
         }
@@ -56,8 +53,8 @@ public class Cell {
         return new CellState(deepCopy(boxes), totalState, isActive);
     }
 
-    public Cell copy(Game newGame) {
-        Cell c = new Cell(newGame, row, col);
+    public Cell copy() {
+        Cell c = new Cell(row, col);
         c.boxes = deepCopy(boxes);
         c.isActive = isActive;
         c.totalState = totalState;
@@ -75,6 +72,7 @@ public class Cell {
             for (Box b : bs) {
                 if (b == Box.EMPTY) {
                     full = false;
+                    break;
                 }
             }
         }

@@ -22,7 +22,7 @@ public class Game {
         board = new Cell[3][3];
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
-                board[i][j] = new Cell(this, i, j);
+                board[i][j] = new Cell(i, j);
             }
         }
         this.p1 = player1;
@@ -111,7 +111,7 @@ public class Game {
         newGame.board = new Cell[3][3];
         for (int i = 0; i<3; i++) {
             for (int j = 0; j<3; j++) {
-                newGame.board[i][j] = board[i][j].copy(newGame);
+                newGame.board[i][j] = board[i][j].copy();
             }
         }
         newGame.currentPlayer = currentPlayer;
@@ -154,9 +154,9 @@ public class Game {
     private List<Cell> getEmptyFields() {
         List<Cell> res = new ArrayList<>();
         for (Cell[] field : board) {
-            for (int j = 0; j < field.length; j++) {
-                if (field[j].getTotalState() == Box.EMPTY) {
-                    res.add(field[j]);
+            for (Cell cell : field) {
+                if (cell.getTotalState() == Box.EMPTY) {
+                    res.add(cell);
                 }
             }
         }
