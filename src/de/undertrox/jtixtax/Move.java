@@ -12,4 +12,11 @@ public class Move {
         this.smallRow = smallRow;
         this.smallCol = smallCol;
     }
+
+    public Move(int bigRow, int bigCol) {
+        this.bigRow = bigRow;
+        this.bigCol = bigCol;
+        this.smallRow = -1;
+        this.smallCol = -1;
+    }
 }

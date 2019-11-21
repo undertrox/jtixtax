@@ -1,9 +1,6 @@
 package de.undertrox.jtixtax.ai;
 
-import de.undertrox.jtixtax.Box;
-import de.undertrox.jtixtax.Game;
-import de.undertrox.jtixtax.Move;
-import de.undertrox.jtixtax.Player;
+import de.undertrox.jtixtax.*;
 
 import java.util.Random;
 
@@ -22,14 +19,14 @@ public class WeightedAI extends Player {
         this.p2Weight = p2Weight;
     }
 
-    public void init(Box color, Game parentGame) {
-        super.init(color, parentGame);
-        p1.init(color, parentGame);
-        p2.init(color, parentGame);
+    public void init(Box color) {
+        super.init(color);
+        p1.init(color);
+        p2.init(color);
     }
 
     @Override
-    public Move play(Game game) {
+    public Move play(GameState game) {
         int totalWeight = p1Weight + p2Weight;
         if (r.nextInt(totalWeight) < p1Weight) {
             return p1.play(game);

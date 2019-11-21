@@ -23,9 +23,9 @@ public class Game {
             }
         }
         this.p1 = player1;
-        p1.init(Box.RED, this);
+        p1.init(Box.RED);
         this.p2 = player2;
-        p2.init(Box.BLUE, this);
+        p2.init(Box.BLUE);
         currentPlayer = p1;
     }
 
@@ -33,7 +33,7 @@ public class Game {
      * Fuehrt einen Zug aus
      */
     public void playOneTurn() {
-        set(currentPlayer.play(this), currentPlayer);
+        set(currentPlayer.play(getState()), currentPlayer);
         nextTurn();
     }
 
@@ -193,20 +193,7 @@ public class Game {
         return winner;
     }
 
-    /**
-     * gibt ein Array von zweielementigen Arrays zurueck, die jeweils die
-     * Koordinaten des Feldes repraesentieren. Bsp:
-     * getActiveFields() = [[0,0], [2,1]]
-     * das Erste Element ist die Reihe, das zweite die Spalte
-     */
-    public int[][] getActiveFieldCoords() {
-        List<Cell> activeFields = getActiveFields();
-        int[][] res = new int[activeFields.size()][2];
-        for (int i = 0; i < res.length; i++) {
-            res[i] = new int[]{activeFields.get(i).getRow(), activeFields.get(i).getCol()};
-        }
-        return res;
-    }
+
 
     /**
      * gibt alle Cells zurueck, in die im aktuellen Zug
@@ -273,5 +260,9 @@ public class Game {
                 smallRow > 2 || smallRow < 0 || smallCol > 2 || smallCol < 0)
             return false;
         return board[bigRow][bigCol].canSetBox(smallRow, smallCol);
+    }
+
+    public boolean isValidMove(Move move) {
+        return isValidMove(move.bigRow, move.bigCol, move.smallRow, move.smallCol);
     }
 }
