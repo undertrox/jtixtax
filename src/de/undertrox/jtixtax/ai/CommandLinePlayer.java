@@ -33,6 +33,7 @@ public class CommandLinePlayer extends Player {
             System.out.println("Invalid Move, please try again.");
             return play(g);
         }
+
         return new int[]{bigRow, bigCol, smallRow, smallCol};
     }
 

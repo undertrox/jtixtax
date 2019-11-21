@@ -2,7 +2,7 @@ package de.undertrox.jtixtax;
 
 import java.util.Arrays;
 
-public class TicTacToe {
+public class Cell {
     private Box[][] boxes;
     private Game parentGame;
     private int row, col;
@@ -14,7 +14,7 @@ public class TicTacToe {
      *
      * @param game Spiel, zu dem das TTT gehoert
      */
-    public TicTacToe(Game game, int row, int col) {
+    public Cell(Game game, int row, int col) {
         boxes = new Box[3][3];
         parentGame = game;
         for (Box[] box : boxes) {
@@ -61,7 +61,7 @@ public class TicTacToe {
             }
         }
         if (full) {
-            totalState = Box.TIE;
+            totalState = Box.FULL;
         }
         for (int i = 0; i < boxes.length; i++) {
             if (boxes[i][0] == boxes[i][1] && boxes[i][1] == boxes[i][2]
@@ -114,7 +114,7 @@ public class TicTacToe {
     }
 
     public String[] draw() {
-        if (getTotalState() == Box.EMPTY || getTotalState() == Box.TIE) {
+        if (getTotalState() == Box.EMPTY || getTotalState() == Box.FULL) {
             if (isActive()) {
                 return new String[]{
                         "╔════════════╗",

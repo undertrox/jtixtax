@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Game {
-    private TicTacToe[][] board;
+    private Cell[][] board;
     private Player p1, p2;
     private Player winner;
     private Player currentPlayer;
@@ -13,13 +13,13 @@ public class Game {
 
 
     /**
-     * Initialisiert das Spielfeld mit leeren de.undertrox.tixtax.TicTacToe-Feldern
+     * Initialisiert das Spielfeld mit leeren Cells
      */
     public Game(Player player1, Player player2) {
-        board = new TicTacToe[3][3];
+        board = new Cell[3][3];
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
-                board[i][j] = new TicTacToe(this, i, j);
+                board[i][j] = new Cell(this, i, j);
             }
         }
         this.p1 = player1;
@@ -76,11 +76,11 @@ public class Game {
     }
 
     /**
-     * deaktiviert alle TTTs, sollte nicht manuell aufgerufen werden.
+     * deaktiviert alle Cells, sollte nicht manuell aufgerufen werden.
      */
     private void clearActive() {
-        for (TicTacToe[] field : board) {
-            for (TicTacToe box : field) {
+        for (Cell[] field : board) {
+            for (Cell box : field) {
                 if (box.isActive()) {
                     box.setActive(false);
                 }
@@ -89,15 +89,15 @@ public class Game {
     }
 
     /**
-     * Aktiviert das TTT an (row, col).
-     * wenn das TTT schon ausgefuellt ist, werden alle noch nicht ausgefuellten
-     * TTTs aktiviert
+     * Aktiviert die Cell an (row, col).
+     * wenn die Cell schon ausgefuellt ist, werden alle noch nicht ausgefuellten
+     * Cells aktiviert
      */
     private void setActive(int row, int col) {
         if (board[row][col].getTotalState() == Box.EMPTY) {
             board[row][col].setActive(true);
         } else {
-            for (TicTacToe field : getEmptyFields()) {
+            for (Cell field : getEmptyFields()) {
                 field.setActive(true);
             }
         }
@@ -108,35 +108,35 @@ public class Game {
             if (board[i][0].getTotalState() == board[i][1].getTotalState()
                     && board[i][1].getTotalState() == board[i][2].getTotalState()
                     && board[i][1].getTotalState() != Box.EMPTY
-                    && board[i][1].getTotalState() != Box.TIE) {
+                    && board[i][1].getTotalState() != Box.FULL) {
                 win(board[i][0].getTotalState());
             } else if (board[0][i].getTotalState() == board[1][i].getTotalState()
                     && board[1][i].getTotalState() == board[2][i].getTotalState()
                     && board[1][i].getTotalState() != Box.EMPTY
-                    && board[1][i].getTotalState() != Box.TIE) {
+                    && board[1][i].getTotalState() != Box.FULL) {
                 win(board[0][i].getTotalState());
             }
         }
         if (board[0][0].getTotalState() == board[1][1].getTotalState() &&
                 board[1][1].getTotalState() == board[2][2].getTotalState()
                 && board[0][0].getTotalState() != Box.EMPTY
-                && board[0][0].getTotalState() != Box.TIE) {
+                && board[0][0].getTotalState() != Box.FULL) {
             win(board[0][0].getTotalState());
         } else if (board[0][2].getTotalState() == board[1][1].getTotalState()
                 && board[1][1].getTotalState() == board[2][0].getTotalState()
                 && board[1][1].getTotalState() != Box.EMPTY
-                && board[1][1].getTotalState() != Box.TIE) {
+                && board[1][1].getTotalState() != Box.FULL) {
             win(board[2][0].getTotalState());
         }
     }
 
     /**
-     * gibt eine Liste mit allen TTTs, in denen noch niemand gewonnen hat
+     * gibt eine Liste mit allen Cells, in denen noch niemand gewonnen hat
      * zurueck.
      */
-    private List<TicTacToe> getEmptyFields() {
-        List<TicTacToe> res = new ArrayList<>();
-        for (TicTacToe[] field : board) {
+    private List<Cell> getEmptyFields() {
+        List<Cell> res = new ArrayList<>();
+        for (Cell[] field : board) {
             for (int j = 0; j < field.length; j++) {
                 if (field[j].getTotalState() == Box.EMPTY) {
                     res.add(field[j]);
@@ -186,7 +186,7 @@ public class Game {
      * das Erste Element ist die Reihe, das zweite die Spalte
      */
     public int[][] getActiveFieldCoords() {
-        List<TicTacToe> activeFields = getActiveFields();
+        List<Cell> activeFields = getActiveFields();
         int[][] res = new int[activeFields.size()][2];
         for (int i = 0; i < res.length; i++) {
             res[i] = new int[]{activeFields.get(i).getRow(), activeFields.get(i).getCol()};
@@ -195,13 +195,13 @@ public class Game {
     }
 
     /**
-     * gibt alle TicTacToe-Felder zurueck, in die im aktuellen Zug
+     * gibt alle Cells zurueck, in die im aktuellen Zug
      * gesetzt werden kann.
      */
-    private List<TicTacToe> getActiveFields() {
-        List<TicTacToe> res = new ArrayList<>();
-        for (TicTacToe[] field : board) {
-            for (TicTacToe box : field) {
+    private List<Cell> getActiveFields() {
+        List<Cell> res = new ArrayList<>();
+        for (Cell[] field : board) {
+            for (Cell box : field) {
                 if (box.isActive()) {
                     res.add(box);
                 }
