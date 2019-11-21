@@ -78,7 +78,7 @@ public class CellState {
     }
 
     public boolean isActive() {
-        return isActive;
+        return isActive && getTotalState() == Box.EMPTY;
     }
 
     public Box getBox(int row, int col) {

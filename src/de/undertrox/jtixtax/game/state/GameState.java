@@ -12,7 +12,7 @@ public class GameState {
     private CellState[][] state;
     private Game parentGame;
 
-    GameState(CellState[][] state, Game g) {
+    public GameState(CellState[][] state, Game g) {
         this.state = state;
         this.parentGame = g;
     }
