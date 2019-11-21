@@ -196,24 +196,6 @@ public class Game {
         return winner;
     }
 
-
-
-    /**
-     * gibt alle Cells zurueck, in die im aktuellen Zug
-     * gesetzt werden kann.
-     */
-    private List<Cell> getActiveFields() {
-        List<Cell> res = new ArrayList<>();
-        for (Cell[] field : board) {
-            for (Cell box : field) {
-                if (box.isActive()) {
-                    res.add(box);
-                }
-            }
-        }
-        return res;
-    }
-
     public String draw() {
         return getState().draw() + "\n" +
                 getCurrentPlayer();
@@ -221,20 +203,6 @@ public class Game {
 
     public Player getCurrentPlayer() {
         return hasEnded() ? null : currentPlayer;
-    }
-
-    /**
-     * Gibt eine komplette Repraesentation des Spielfeldes zurueck
-     * format: getBoard()[bigRow][bigCol][smallRow][smallCol]
-     */
-    private Box[][][][] getBoard() {
-        Box[][][][] fboard = new Box[3][3][3][3];
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                fboard[i][j] = board[i][j].toArray();
-            }
-        }
-        return fboard;
     }
 
     public GameState getState() {

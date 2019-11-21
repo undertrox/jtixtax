@@ -123,27 +123,11 @@ public class Cell {
         isActive = active;
     }
 
-    public Box[][] toArray() {
-        return boxes;
-    }
-
     public String toString() {
         return Arrays.toString(draw()).replace(", ", "\n").replace("[", "");
     }
 
     public String[] draw() {
         return getState().draw();
-    }
-
-    private String str(Box b) {
-        switch (b) {
-            case RED:
-                return "O";
-            case BLUE:
-                return "X";
-            case EMPTY:
-                return " ";
-        }
-        return "ERROR";
     }
 }
