@@ -1,6 +1,7 @@
 package de.undertrox.jtixtax.ai;
 
 import de.undertrox.jtixtax.Game;
+import de.undertrox.jtixtax.Move;
 import de.undertrox.jtixtax.Player;
 
 public class LastFieldAI extends Player {
@@ -9,7 +10,7 @@ public class LastFieldAI extends Player {
         super(name);
     }
 
-    public int[] play(Game game) {
+    public Move play(Game game) {
         int bigRow = 2, bigCol = 2, smallRow = 2, smallCol = 2;
         while (!canSet(bigRow, bigCol, smallRow, smallCol)) {
             smallRow--;
@@ -29,6 +30,6 @@ public class LastFieldAI extends Player {
                 }
             }
         };
-        return new int[]{bigRow, bigCol, smallRow, smallCol};
+        return new Move(bigRow, bigCol, smallRow, smallCol);
     }
 }

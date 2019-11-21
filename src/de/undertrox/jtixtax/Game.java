@@ -42,13 +42,13 @@ public class Game {
      * initiiert den naechsten Zug. Wenn der Spieler nicht am Zug ist, wird
      * ein Fehler erzeugt.
      *
-     * @param c: Koordinaten des Zuges
+     * @param m: Zug
      */
-    private void set(int[] c, Player p) {
-        if (p.isActive()) {
-            board[c[0]][c[1]].setBox(c[2], c[3], p.getColor());
+    private void set(Move m, Player p) {
+        if (p == currentPlayer) {
+            board[m.bigRow][m.bigCol].setBox(m.smallRow, m.smallCol, p.getColor());
             clearActive();
-            setActive(c[2], c[3]);
+            setActive(m.smallRow, m.smallCol);
         } else {
             throw new RuntimeException("Tried to Play without being current Player");
         }
@@ -101,6 +101,20 @@ public class Game {
                 field.setActive(true);
             }
         }
+    }
+
+    public Game copy() {
+        Game newGame = new Game(p1, p2);
+        newGame.board = new Cell[3][3];
+        for (int i = 0; i<3; i++) {
+            for (int j = 0; j<3; j++) {
+                newGame.board[i][j] = board[i][j].copy(newGame);
+            }
+        }
+        newGame.currentPlayer = currentPlayer;
+        newGame.winner = winner;
+        newGame.tie = tie;
+        return newGame;
     }
 
     private void checkBoxes() {
@@ -211,21 +225,7 @@ public class Game {
     }
 
     public String draw() {
-        String[] res = new String[21];
-        Arrays.fill(res, "");
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                String[] next = board[i][j].draw();
-                for (int k = 0; k < 7; k++) {
-                    res[7 * i + k] += next[k];
-                }
-            }
-        }
-        return Arrays.toString(res)
-                     .replace(", ", "\n")
-                     .replace("[", "")
-                     .replace("]", "")
-                + "\n" +
+        return getState().draw() + "\n" +
                 getCurrentPlayer();
     }
 
@@ -237,7 +237,7 @@ public class Game {
      * Gibt eine komplette Repraesentation des Spielfeldes zurueck
      * format: getBoard()[bigRow][bigCol][smallRow][smallCol]
      */
-    public Box[][][][] getBoard() {
+    private Box[][][][] getBoard() {
         Box[][][][] fboard = new Box[3][3][3][3];
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
@@ -245,6 +245,23 @@ public class Game {
             }
         }
         return fboard;
+    }
+
+    public GameState getState() {
+        CellState[][] cellStates = new CellState[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                cellStates[i][j] = board[i][j].getState();
+            }
+        }
+        return new GameState(cellStates, this);
+    }
+
+    public GameState nextState(int bigRow, int bigCol, int smallRow, int smallCol) {
+        Game g = this.copy();
+        g.set(new Move(bigRow, bigCol, smallRow, smallCol), currentPlayer);
+        g.nextTurn();
+        return g.getState();
     }
 
     /**

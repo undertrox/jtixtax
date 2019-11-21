@@ -50,6 +50,22 @@ public class Cell {
         }
     }
 
+    public CellState getState() {
+        return new CellState(deepCopy(boxes), totalState, isActive);
+    }
+
+    public Cell copy(Game newGame) {
+        Cell c = new Cell(newGame, row, col);
+        c.boxes = deepCopy(boxes);
+        c.isActive = isActive;
+        c.totalState = totalState;
+        return c;
+    }
+
+    private <T> T[][] deepCopy(T[][] matrix) {
+        return java.util.Arrays.stream(matrix).map(el -> el.clone()).toArray($ -> matrix.clone());
+    }
+
     private void checkBoxes() {
         boolean full = true;
         for (Box[] bs :
@@ -114,50 +130,7 @@ public class Cell {
     }
 
     public String[] draw() {
-        if (getTotalState() == Box.EMPTY || getTotalState() == Box.FULL) {
-            if (isActive()) {
-                return new String[]{
-                        "╔════════════╗",
-                        "║ " + str(boxes[0][0]) + " │ " + str(boxes[0][1]) + " │ " + str(boxes[0][2]) + " ║",
-                        "╟────────────╢",
-                        "║ " + str(boxes[1][0]) + " │ " + str(boxes[1][1]) + " │ " + str(boxes[1][2]) + " ║",
-                        "╟────────────╢",
-                        "║ " + str(boxes[2][0]) + " │ " + str(boxes[2][1]) + " │ " + str(boxes[2][2]) + " ║",
-                        "╚════════════╝"
-                };
-            }
-            return new String[]{
-                    "┌────────────┐",
-                    "│ " + str(boxes[0][0]) + " │ " + str(boxes[0][1]) + " │ " + str(boxes[0][2]) + " │",
-                    "├────────────┤",
-                    "│ " + str(boxes[1][0]) + " │ " + str(boxes[1][1]) + " │ " + str(boxes[1][2]) + " │",
-                    "├────────────┤",
-                    "│ " + str(boxes[2][0]) + " │ " + str(boxes[2][1]) + " │ " + str(boxes[2][2]) + " │",
-                    "└────────────┘"
-            };
-
-        }
-        if (getTotalState() == Box.RED) {
-            return new String[]{
-                    "┌────────────┐",
-                    "│   ____    │",
-                    "│ /      \\  │",
-                    "│ |      |  │",
-                    "│ |      |  │",
-                    "│  \\____/   │",
-                    "└────────────┘"
-            };
-        }
-        return new String[]{
-                "┌────────────┐",
-                "│   \\   /   │",
-                "│    \\ /    │",
-                "│     X     │",
-                "│    / \\    │",
-                "│   /   \\   │",
-                "└────────────┘"
-        };
-
+        return getState().draw();
     }
 
     private String str(Box b) {

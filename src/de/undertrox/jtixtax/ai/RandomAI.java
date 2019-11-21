@@ -1,6 +1,7 @@
 package de.undertrox.jtixtax.ai;
 
 import de.undertrox.jtixtax.Game;
+import de.undertrox.jtixtax.Move;
 import de.undertrox.jtixtax.Player;
 
 import java.util.Random;
@@ -14,7 +15,7 @@ public class RandomAI extends Player {
     }
 
     @Override
-    public int[] play(Game game) {
+    public Move play(Game game) {
         int bigRow, bigCol, smallRow, smallCol;
         do {
             bigRow = r.nextInt(3);
@@ -22,6 +23,6 @@ public class RandomAI extends Player {
             smallRow = r.nextInt(3);
             smallCol = r.nextInt(3);
         } while (!canSet(bigRow, bigCol, smallRow, smallCol));
-        return new int[]{bigRow, bigCol, smallRow, smallCol};
+        return new Move(bigRow, bigCol, smallRow, smallCol);
     }
 }

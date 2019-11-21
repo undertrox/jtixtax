@@ -26,16 +26,16 @@ public abstract class Player {
     /**
      * gibt zurueck, ob der Spieler gerade am Zug ist
      */
-    public boolean isActive() {
+    /*public boolean isActive() {
         return this == parentGame.getCurrentPlayer();
-    }
+    }*/
 
     /**
      * This method is called once each turn, returns an Array of the form
      * [bigRow, bigCol, smallRow, smallCol] which indicates where the player
      * will set their Cross or Circle
      */
-    public abstract int[] play(Game game);
+    public abstract Move play(Game game);
 
 
     public Box getColor() {

@@ -1,6 +1,7 @@
 package de.undertrox.jtixtax.ai;
 
 import de.undertrox.jtixtax.Game;
+import de.undertrox.jtixtax.Move;
 import de.undertrox.jtixtax.Player;
 
 import java.io.BufferedReader;
@@ -16,7 +17,7 @@ public class CommandLinePlayer extends Player {
     }
 
     @Override
-    public int[] play(Game g) {
+    public Move play(Game g) {
         System.out.println(g.draw());
         int[][] active = g.getActiveFieldCoords();
         int bigRow, bigCol;
@@ -34,7 +35,7 @@ public class CommandLinePlayer extends Player {
             return play(g);
         }
 
-        return new int[]{bigRow, bigCol, smallRow, smallCol};
+        return new Move(bigRow, bigCol, smallRow, smallCol);
     }
 
     private int getInt(String message) {
