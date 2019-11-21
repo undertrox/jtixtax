@@ -99,6 +99,26 @@ public class GameState {
     }
 
     /**
+     * returns a List with all Valid Moves for the current GameState
+     */
+    public List<Move> getValidMoves() {
+        ArrayList<Move> validMoves = new ArrayList<>();
+        // Sorry
+        for (int i = 0; i<3; i++) {
+            for (int j = 0; j <3; j++) {
+                for (int k = 0; k<3; k++) {
+                    for (int m = 0; m<3; m++) {
+                        if (isValidMove(i,j,k,m)) {
+                            validMoves.add(new Move(i,j,k,m));
+                        }
+                    }
+                }
+            }
+        }
+        return validMoves;
+    }
+
+    /**
      * returns whether setting a Cross or Circle at the specified Coords is
      * a valid move.
      *

@@ -7,8 +7,8 @@ public class TixTax {
     public static void main(String[] args) {
         Player p1 = new RandomAI("RandomAI");
         Player p2 = new WeightedAI("Name",
-                                   new RandomAI(""), 80,
-                                   new CommandLinePlayer(""), 20);
+                                   new RandomAI(""), 75,
+                                   new CommandLinePlayer(""), 25);
         Game g = new Game(p1, p2);
         while (!g.hasEnded()) {
             g.playOneTurn();
