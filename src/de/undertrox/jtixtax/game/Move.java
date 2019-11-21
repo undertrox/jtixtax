@@ -19,4 +19,8 @@ public class Move {
         this.smallRow = -1;
         this.smallCol = -1;
     }
+
+    public String toString() {
+        return String.format("Move(%s, %s, %s, %s)", bigRow, bigCol, smallRow, smallCol);
+    }
 }
