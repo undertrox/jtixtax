@@ -1,4 +1,8 @@
-package de.undertrox.jtixtax;
+package de.undertrox.jtixtax.game.state;
+
+import de.undertrox.jtixtax.game.Box;
+import de.undertrox.jtixtax.game.Game;
+import de.undertrox.jtixtax.game.Move;
 
 import java.util.ArrayList;
 import java.util.Arrays;

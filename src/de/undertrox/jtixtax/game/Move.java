@@ -1,4 +1,4 @@
-package de.undertrox.jtixtax;
+package de.undertrox.jtixtax.game;
 
 public class Move {
     public int bigRow;

@@ -1,7 +1,10 @@
-package de.undertrox.jtixtax;
+package de.undertrox.jtixtax.game;
+
+import de.undertrox.jtixtax.game.state.CellState;
+import de.undertrox.jtixtax.game.state.GameState;
+import de.undertrox.jtixtax.ai.Player;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Game {

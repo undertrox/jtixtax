@@ -1,6 +1,8 @@
 package de.undertrox.jtixtax.ai;
 
-import de.undertrox.jtixtax.*;
+import de.undertrox.jtixtax.game.Box;
+import de.undertrox.jtixtax.game.Move;
+import de.undertrox.jtixtax.game.state.GameState;
 
 import java.util.Random;
 

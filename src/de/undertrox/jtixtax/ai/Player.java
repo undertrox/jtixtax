@@ -1,4 +1,8 @@
-package de.undertrox.jtixtax;
+package de.undertrox.jtixtax.ai;
+
+import de.undertrox.jtixtax.game.state.GameState;
+import de.undertrox.jtixtax.game.Box;
+import de.undertrox.jtixtax.game.Move;
 
 public abstract class Player {
     private Box color;

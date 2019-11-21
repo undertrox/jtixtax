@@ -1,4 +1,6 @@
-package de.undertrox.jtixtax;
+package de.undertrox.jtixtax.game;
+
+import de.undertrox.jtixtax.game.state.CellState;
 
 import java.util.Arrays;
 

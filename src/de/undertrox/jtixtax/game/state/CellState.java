@@ -1,4 +1,6 @@
-package de.undertrox.jtixtax;
+package de.undertrox.jtixtax.game.state;
+
+import de.undertrox.jtixtax.game.Box;
 
 public class CellState {
     private Box[][] boxes;

@@ -1,4 +1,4 @@
-package de.undertrox.jtixtax;
+package de.undertrox.jtixtax.game;
 
 public enum Box {
     RED,
