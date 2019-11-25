@@ -13,6 +13,7 @@ public class TixTax {
         while (!g.hasEnded()) {
             g.playOneTurn();
             System.out.println(g.draw());
+            System.out.println(g.getState().getValidMoves());
         }
         System.out.println(g.status());
     }
