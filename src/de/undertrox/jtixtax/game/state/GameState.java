@@ -118,6 +118,34 @@ public class GameState {
         return validMoves;
     }
 
+    public Box getWinner() {
+        for (int i = 0; i < state.length; i++) {
+            if (state[i][0].getTotalState() == state[i][1].getTotalState()
+                && state[i][1].getTotalState() == state[i][2].getTotalState()
+                && state[i][1].getTotalState() != Box.EMPTY
+                && state[i][1].getTotalState() != Box.FULL) {
+                return state[i][0].getTotalState();
+            } else if (state[0][i].getTotalState() == state[1][i].getTotalState()
+                && state[1][i].getTotalState() == state[2][i].getTotalState()
+                && state[1][i].getTotalState() != Box.EMPTY
+                && state[1][i].getTotalState() != Box.FULL) {
+                return state[0][i].getTotalState();
+            }
+        }
+        if (state[0][0].getTotalState() == state[1][1].getTotalState() &&
+            state[1][1].getTotalState() == state[2][2].getTotalState()
+            && state[0][0].getTotalState() != Box.EMPTY
+            && state[0][0].getTotalState() != Box.FULL) {
+            return state[0][0].getTotalState();
+        } else if (state[0][2].getTotalState() == state[1][1].getTotalState()
+            && state[1][1].getTotalState() == state[2][0].getTotalState()
+            && state[1][1].getTotalState() != Box.EMPTY
+            && state[1][1].getTotalState() != Box.FULL) {
+            return state[2][0].getTotalState();
+        }
+        return null;
+    }
+
     /**
      * returns whether setting a Cross or Circle at the specified Coords is
      * a valid move.

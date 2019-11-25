@@ -121,29 +121,9 @@ public class Game {
     }
 
     private void checkBoxes() {
-        for (int i = 0; i < board.length; i++) {
-            if (board[i][0].getTotalState() == board[i][1].getTotalState()
-                    && board[i][1].getTotalState() == board[i][2].getTotalState()
-                    && board[i][1].getTotalState() != Box.EMPTY
-                    && board[i][1].getTotalState() != Box.FULL) {
-                win(board[i][0].getTotalState());
-            } else if (board[0][i].getTotalState() == board[1][i].getTotalState()
-                    && board[1][i].getTotalState() == board[2][i].getTotalState()
-                    && board[1][i].getTotalState() != Box.EMPTY
-                    && board[1][i].getTotalState() != Box.FULL) {
-                win(board[0][i].getTotalState());
-            }
-        }
-        if (board[0][0].getTotalState() == board[1][1].getTotalState() &&
-                board[1][1].getTotalState() == board[2][2].getTotalState()
-                && board[0][0].getTotalState() != Box.EMPTY
-                && board[0][0].getTotalState() != Box.FULL) {
-            win(board[0][0].getTotalState());
-        } else if (board[0][2].getTotalState() == board[1][1].getTotalState()
-                && board[1][1].getTotalState() == board[2][0].getTotalState()
-                && board[1][1].getTotalState() != Box.EMPTY
-                && board[1][1].getTotalState() != Box.FULL) {
-            win(board[2][0].getTotalState());
+        Box winner = getState().getWinner();
+        if (winner != null) {
+            win(winner);
         }
     }
 
