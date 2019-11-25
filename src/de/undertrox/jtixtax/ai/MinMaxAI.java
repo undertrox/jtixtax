@@ -6,6 +6,7 @@ import de.undertrox.jtixtax.game.Move;
 import de.undertrox.jtixtax.game.state.GameState;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MinMaxAI extends Player{
@@ -15,12 +16,21 @@ public class MinMaxAI extends Player{
 
     @Override
     public Move play(GameState gameState) {
-        List<GameState> states = new ArrayList<>();
+        int depth = 1;
+        List<List<GameState>> states = new ArrayList<>();
+        for (int i = 0; i<depth; i++) {
+            states.add(new ArrayList<>());
+        }
         for (Move m : gameState.getValidMoves()) {
-            states.add(gameState.nextState(m));
+            states.get(0).add(gameState.nextState(m));
+        }
+        for (int i = 1; i<depth; i++) {
+            for (Move m : states.get(i-1).get(i).getValidMoves()) {
+                states.get(i).add(gameState.nextState(m));
+            }
         }
         List<Integer> scores = new ArrayList<>();
-        for (GameState s : states) {
+        for (GameState s : states.get(0)) {
             scores.add(getScore(s));
         }
         int maxIndex =-1;
@@ -31,6 +41,8 @@ public class MinMaxAI extends Player{
                 maxVal = scores.get(i);
             }
         }
+        System.out.println(gameState.getValidMoves());
+        System.out.println(scores);
         return gameState.getValidMoves().get(maxIndex);
     }
 
