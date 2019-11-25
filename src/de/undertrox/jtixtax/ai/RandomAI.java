@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class RandomAI extends Player {
 
-    private static Random r = new Random();
+    private Random r = new Random();
 
     public RandomAI(String name) {
         super(name);

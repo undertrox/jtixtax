@@ -7,11 +7,12 @@ import de.undertrox.jtixtax.game.state.GameState;
 import java.util.Random;
 
 public class WeightedAI extends Player {
+
     private Player p1;
     private Player p2;
     private int p1Weight;
     private int p2Weight;
-    private static Random r = new Random();
+    private Random r = new Random();
 
     public WeightedAI(String name, Player p1, int p1Weight, Player p2, int p2Weight) {
         super(name);
