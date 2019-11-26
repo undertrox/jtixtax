@@ -5,14 +5,16 @@ import de.undertrox.jtixtax.game.state.GameState;
 
 
 public class MinMaxAI extends Player{
-    public MinMaxAI(String name) {
+    private int depth;
+    public MinMaxAI(String name, int depth) {
         super(name);
+        this.depth = depth;
     }
 
     @Override
     public Move play(GameState gameState) {
         MinMaxNode root = new MinMaxNode(gameState, getColor());
-        return root.getBestMove(3);
+        return root.getBestMove(depth);
     }
 
 

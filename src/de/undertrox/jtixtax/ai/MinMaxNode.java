@@ -43,7 +43,7 @@ public class MinMaxNode {
         }
         double maxScore = alpha;
         for (MinMaxNode child : getChildren()) {
-            double cScore = -miniMax(depth-1, -beta, -maxScore);
+            double cScore = -child.miniMax(depth-1, -beta, -maxScore);
             if (cScore > maxScore) {
                 maxScore = cScore;
                 if (maxScore >= beta) {
@@ -102,9 +102,40 @@ public class MinMaxNode {
         return worstChild;
     }
 
+    public String toString() {
+        return move.toString();
+    }
+
+    private MinMaxNode getBestChildMinimax(int depth) {
+        if (getChildren().size() == 0) {
+            return null;
+        }
+        MinMaxNode bestChild = getChildren().get(0);
+        if (depth % 2 ==0) {
+            double bestScore = bestChild.miniMax(depth, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+            for (MinMaxNode child : getChildren()) {
+                double s = child.miniMax(depth, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+                if (s > bestScore) {
+                    bestScore = s;
+                    bestChild = child;
+                }
+            }
+        } else {
+            double bestScore = -bestChild.miniMax(depth, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+            for (MinMaxNode child : getChildren()) {
+                double s = -child.miniMax(depth, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+                if (s > bestScore) {
+                    bestScore = s;
+                    bestChild = child;
+                }
+            }
+        }
+        return bestChild;
+    }
+
     public Move getBestMove(int level) {
 
-        return getBestChild(level).move;
+        return getBestChildMinimax(level).move;
     }
 
     private double getScore() {
