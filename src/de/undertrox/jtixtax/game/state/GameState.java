@@ -11,10 +11,18 @@ import java.util.List;
 public class GameState {
     private CellState[][] state;
     private Game parentGame;
+    private GameState previousState;
 
     public GameState(CellState[][] state, Game g) {
         this.state = state;
         this.parentGame = g;
+    }
+    private void setPreviousState(GameState prev) {
+        previousState = prev;
+    }
+
+    public GameState getPreviousState() {
+        return previousState;
     }
 
     /**
@@ -66,9 +74,14 @@ public class GameState {
      * if nothing can be done on the Specified coordinates.
      */
     public GameState nextState(int bigRow, int bigCol, int smallRow, int smallCol) {
-        if (canSet(bigRow, bigCol, smallRow, smallCol)) {
-            return parentGame.copy().nextState(bigRow, bigCol, smallRow, smallCol);
+        if (isValidMove(bigRow, bigCol, smallRow, smallCol)) {
+            GameState next = parentGame.copy().nextState(bigRow, bigCol, smallRow, smallCol);
+            next.setPreviousState(this);
+            return next;
         }
+        System.out.println(draw());
+        System.out.println(new Move(bigRow,bigCol,smallRow,smallCol));
+
         return null;
     }
 
