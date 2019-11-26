@@ -12,7 +12,7 @@ public class MinMaxAI extends Player{
     @Override
     public Move play(GameState gameState) {
         MinMaxNode root = new MinMaxNode(gameState, getColor());
-        return root.getBestMove();
+        return root.getBestMove(3);
     }
 
 
