@@ -36,8 +36,13 @@ public class Game {
      * Fuehrt einen Zug aus
      */
     public void playOneTurn() {
-        set(currentPlayer.play(getState()), currentPlayer);
-        nextTurn();
+        Move m = currentPlayer.play(getState());
+        if (isValidMove(m)) {
+            set(currentPlayer.play(getState()), currentPlayer);
+            nextTurn();
+        } else {
+            throw new RuntimeException("Invalid Move");
+        }
     }
 
     /**
