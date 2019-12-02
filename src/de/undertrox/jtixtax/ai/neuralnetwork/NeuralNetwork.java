@@ -1,5 +1,6 @@
 package de.undertrox.jtixtax.ai.neuralnetwork;
 
+import java.io.*;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -19,7 +20,20 @@ public class NeuralNetwork {
         initBiases();
         initWeights();
         initNeurons();
+    }
 
+    public static NeuralNetwork readFrom(String filePath) {
+        try{
+            FileInputStream readData = new FileInputStream("peopledata.ser");
+            ObjectInputStream readStream = new ObjectInputStream(readData);
+
+            NeuralNetwork nn = (NeuralNetwork) readStream.readObject();
+            readStream.close();
+            return nn;
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private void initNeurons() {
@@ -94,5 +108,19 @@ public class NeuralNetwork {
 
     private double sigmoid(double x) {
         return 1.0 / (1.0 + Math.exp(-x));
+    }
+
+    public void writeTo(String path) {
+        try{
+            FileOutputStream writeData = new FileOutputStream(path);
+            ObjectOutputStream writeStream = new ObjectOutputStream(writeData);
+
+            writeStream.writeObject(this);
+            writeStream.flush();
+            writeStream.close();
+
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
