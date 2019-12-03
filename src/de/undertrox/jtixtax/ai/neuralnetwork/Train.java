@@ -64,8 +64,9 @@ public class Train {
 
             NeuralNetworkPlayer[] newPlayers = new NeuralNetworkPlayer[playerNum];
             Arrays.sort(players);
-            System.out.println();
-            System.out.printf("Average score: %s; Best score: %s\n", 1.0*totalScore/playerNum*rounds, players[0].score);
+            System.out.println("\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b" +
+                                 "\b\b\b\b\b\b\b");
+            System.out.printf("Generation %s: Average score: %s; Best score: %s\n",i, 1.0*totalScore/playerNum*rounds, players[0].score);
             newPlayers[0] = players[0];
             for (int j = 1; j < playerNum; j++) {
                 int index =(int) Math.abs(r.nextGaussian()*0.2)*(playerNum-1);
