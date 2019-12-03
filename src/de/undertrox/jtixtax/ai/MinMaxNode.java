@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MinMaxNode {
-    private MinMaxNode parent;
     private List<MinMaxNode> children;
     private GameState state;
     private Box color;
     private Move move;
+    private static int calculations = 0;
 
     double score = Double.NaN;
 
@@ -31,7 +31,6 @@ public class MinMaxNode {
             children = new ArrayList<>();
             for (Move m : state.getValidMoves()) {
                 MinMaxNode child = new MinMaxNode(state.nextState(m), color, m);
-                child.parent = this;
                 children.add(child);
             }
         }
@@ -42,6 +41,10 @@ public class MinMaxNode {
         if (depth == 0 || getChildren().size() == 0) {
             return getScore();
         }
+        if (calculations > 50000) {
+            depth = Math.min(depth, 0);
+        }
+        calculations++;
         double maxScore = alpha;
         for (MinMaxNode child : getChildren()) {
             double cScore = -child.miniMax(depth-1, -beta, -maxScore);
@@ -59,6 +62,7 @@ public class MinMaxNode {
         if (getChildren().size() == 0) {
             return getScore();
         }
+        calculations++;
         if (!Double.isNaN(score)) {
             if (level == 0) {
                 score = getScore();
@@ -108,6 +112,7 @@ public class MinMaxNode {
     }
 
     private MinMaxNode getBestChildMinimax(int depth) {
+
         if (getChildren().size() == 0) {
             return null;
         }
@@ -135,7 +140,9 @@ public class MinMaxNode {
     }
 
     public Move getBestMove(int level) {
-        return getBestChildMinimax(level).move;
+        calculations = 0;
+        Move m = getBestChildMinimax(level).move;
+        return m;
     }
 
     private double getScore() {

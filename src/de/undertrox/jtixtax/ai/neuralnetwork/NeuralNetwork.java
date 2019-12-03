@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.Arrays;
 import java.util.Random;
 
-public class NeuralNetwork {
+public class NeuralNetwork implements Serializable {
     private Random r;
     private int layers;
     private int[] sizes;
@@ -12,6 +12,8 @@ public class NeuralNetwork {
     private double[][][] weights;
     private double[][] neurons;
     private int currentLayer;
+    private double mutationRate;
+    private double mutationAmount;
 
     public NeuralNetwork(int... sizes) {
         r = new Random();
@@ -20,11 +22,13 @@ public class NeuralNetwork {
         initBiases();
         initWeights();
         initNeurons();
+        mutationRate = Math.abs(r.nextGaussian());
+        mutationAmount = Math.abs(r.nextGaussian());
     }
 
     public static NeuralNetwork readFrom(String filePath) {
         try{
-            FileInputStream readData = new FileInputStream("peopledata.ser");
+            FileInputStream readData = new FileInputStream(filePath);
             ObjectInputStream readStream = new ObjectInputStream(readData);
 
             NeuralNetwork nn = (NeuralNetwork) readStream.readObject();
@@ -121,6 +125,68 @@ public class NeuralNetwork {
 
         }catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private double[][][] getWeights() {
+        double[][][] w = new double[weights.length][][];
+        for (int i = 0; i < weights.length; i++) {
+            w[i] = new double[weights[i].length][];
+            for (int j = 0; j < weights[i].length; j++) {
+                w[i][j] = new double[weights[i][j].length];
+                System.arraycopy(weights[i][j], 0, w[i][j], 0, weights[i][j].length);
+            }
+        }
+        return w;
+    }
+
+    private double[][] getBiases() {
+        double[][] b = new double[biases.length][];
+        for (int i = 0; i < biases.length; i++) {
+            b[i] = new double[biases[i].length];
+            System.arraycopy(biases[i], 0, b[i], 0, biases[i].length);
+        }
+        return b;
+    }
+
+    public NeuralNetwork offspring() {
+        NeuralNetwork n = new NeuralNetwork(sizes);
+        n.weights = getWeights();
+        n.biases = getBiases();
+        n.mutationRate = mutationRate;
+        n.mutationAmount = mutationAmount;
+        n.mutate();
+        return n;
+    }
+
+    private void mutate() {
+        if (mutationRate <= 0) {
+            mutationRate = 0.01;
+        }
+        if (mutationAmount == 0) {
+            mutationAmount = 0.1;
+        }
+        for (int i = 0; i < biases.length; i++) {
+            for (int j = 0; j < biases[i].length; j++) {
+                if (r.nextDouble() < mutationRate*10) {
+                    biases[i][j] *= mutationAmount * r.nextGaussian()+1;
+                }
+            }
+        }
+        for (int i = 0; i < weights.length; i++) {
+            for (int j = 0; j < weights[i].length; j++) {
+                for (int k = 0; k < weights[i][j].length; k++) {
+                    if (r.nextDouble() < mutationRate*10) {
+                        weights[i][j][k] *= mutationAmount * r.nextGaussian()+1;
+                    }
+                }
+            }
+        }
+        if (r.nextDouble() < mutationRate*10) {
+            mutationRate *= mutationAmount * r.nextGaussian() + 1;
+        }
+        if (r.nextDouble() < mutationRate*10) {
+            mutationAmount *= mutationAmount * r.nextGaussian() + 1;
         }
     }
 }

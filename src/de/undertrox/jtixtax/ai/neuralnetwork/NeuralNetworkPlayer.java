@@ -1,25 +1,38 @@
 package de.undertrox.jtixtax.ai.neuralnetwork;
 
 import de.undertrox.jtixtax.ai.Player;
+import de.undertrox.jtixtax.game.Box;
 import de.undertrox.jtixtax.game.Move;
 import de.undertrox.jtixtax.game.state.GameState;
 
-public class NeuralNetworkPlayer extends Player {
+import java.io.Serializable;
+
+public class NeuralNetworkPlayer extends Player implements Comparable<NeuralNetworkPlayer> , Serializable {
 
     private NeuralNetwork nn;
+    public int score;
+    private static final long serialVersionUID = -8695687118110368340L;
+
+    public NeuralNetworkPlayer() {
+        super("");
+
+    }
 
     public NeuralNetworkPlayer(String name) {
         super(name);
-        nn = new NeuralNetwork(81, 20, 81);
+        nn = new NeuralNetwork(81, 64, 64, 128, 81);
     }
 
     @Override
     public Move play(GameState gameState) {
         double[] input = new double[81];
         for (int i = 0; i<81; i++) {
-            input[i] = gameState.getCell(i/27%3, i/9%3)
-                                .getBox(i/3%3, i%3)
-                           == getColor() ? 1 : 0;
+            Box b = gameState.getCell(i/27%3, i/9%3)
+                             .getBox(i/3%3, i%3);
+            input[i] = b == getColor() ?
+                       1 :
+                       b == getColor().getOpposite() ?
+                           0 : 0.5;
         }
         double[] out = nn.input(input);
         Move m;
@@ -36,7 +49,21 @@ public class NeuralNetworkPlayer extends Player {
                               maxIndex / 3 % 3, maxIndex % 3
             );
             out[maxIndex] = -1;
+            score--;
         } while (!gameState.isValidMove(m));
         return m;
+    }
+
+    public NeuralNetwork getNeuralNetwork() {
+        return nn;
+    }
+
+    public void setNeuralNetwork(NeuralNetwork n) {
+        nn = n;
+    }
+
+    @Override
+    public int compareTo(NeuralNetworkPlayer neuralNetworkPlayer) {
+        return -Integer.compare(score, neuralNetworkPlayer.score);
     }
 }

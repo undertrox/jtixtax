@@ -30,11 +30,12 @@ public class CommandLinePlayer extends Player {
         }
         int smallRow = getInt("Enter SmallRow (0-2): ");
         int smallCol = getInt("Enter SmallCol (0-2): ");
+
+        System.out.println("test");
         if (!g.isValidMove(bigRow, bigCol, smallRow, smallCol)) {
             System.out.println("Invalid Move, please try again.");
             return play(g);
         }
-
         return new Move(bigRow, bigCol, smallRow, smallCol);
     }
 

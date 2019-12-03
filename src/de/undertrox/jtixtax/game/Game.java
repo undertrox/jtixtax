@@ -38,7 +38,7 @@ public class Game {
     public void playOneTurn() {
         Move m = currentPlayer.play(getState());
         if (isValidMove(m)) {
-            set(currentPlayer.play(getState()), currentPlayer);
+            set(m, currentPlayer);
             nextTurn();
         } else {
             throw new RuntimeException("Invalid Move");

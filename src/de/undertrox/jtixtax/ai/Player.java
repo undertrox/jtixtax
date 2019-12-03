@@ -12,6 +12,10 @@ public abstract class Player {
         this.name = name;
     }
 
+    public Player() {
+        this("");
+    }
+
     /**
      * initialisiert den Spieler auf dem
      * Spielfeld game mit der Farbe color. wird automatisch vom Spiel
