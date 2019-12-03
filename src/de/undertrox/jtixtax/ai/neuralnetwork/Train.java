@@ -72,7 +72,7 @@ public class Train {
                 if (index >= playerNum) index =0;
                 NeuralNetworkPlayer p = players[index];
                 newPlayers[j] = new NeuralNetworkPlayer("Player"+j);
-                newPlayers[j].setNeuralNetwork(r.nextDouble()<0.2?
+                newPlayers[j].setNeuralNetwork(r.nextDouble()<0.1?
                                                p.getNeuralNetwork().offspring()
                                                                  : p.getNeuralNetwork());
             }

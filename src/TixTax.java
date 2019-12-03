@@ -13,15 +13,15 @@ public class TixTax {
     private static Random r = new Random();
     public static void main(String[] args) {
         Player[] players = new Player[2];
-            try {
-                FileInputStream readData = new FileInputStream("players.dat");
-                ObjectInputStream readStream = new ObjectInputStream(readData);
+        try {
+            FileInputStream readData = new FileInputStream("players.dat");
+            ObjectInputStream readStream = new ObjectInputStream(readData);
 
-                players = (NeuralNetworkPlayer[]) readStream.readObject();
-                readStream.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            players = (NeuralNetworkPlayer[]) readStream.readObject();
+            readStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         Arrays.sort(players);
         Player p1 = players[0];
