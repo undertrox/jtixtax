@@ -37,7 +37,6 @@ public class Train {
                 for (int j = 0; j < playerNum; j++) {
                     Player p1 = players[j];
                     for (int k = j%10; k < playerNum; k+=10) {
-                        if (k==j) continue;
                         System.out.print("\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b");
                         System.out.printf("%s/%s [%s/%s]",
                                           i, maxIterations,
