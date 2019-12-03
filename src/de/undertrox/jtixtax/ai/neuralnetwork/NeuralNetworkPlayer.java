@@ -11,7 +11,7 @@ public class NeuralNetworkPlayer extends Player implements Comparable<NeuralNetw
 
     private NeuralNetwork nn;
     public int score;
-    public int wrongMoves;
+    public int wrongMoves = 0;
     private static final long serialVersionUID = -8695687118110368340L;
 
     public NeuralNetworkPlayer() {
@@ -27,7 +27,7 @@ public class NeuralNetworkPlayer extends Player implements Comparable<NeuralNetw
     @Override
     public Move play(GameState gameState) {
         double[] input = new double[81];
-        wrongMoves = 0;
+
         for (int i = 0; i<81; i++) {
             Box b = gameState.getCell(i/27%3, i/9%3)
                              .getBox(i/3%3, i%3);

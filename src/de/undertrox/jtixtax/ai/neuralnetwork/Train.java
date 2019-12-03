@@ -13,7 +13,7 @@ public class Train {
     public static void main(String[] args) {
         int maxIterations = 5000;
         int playerNum = 100;
-        int rounds = 4;
+        int rounds = 1;
         boolean read = true;
         NeuralNetworkPlayer[] players = new NeuralNetworkPlayer[playerNum];
         if (read) {
@@ -31,37 +31,46 @@ public class Train {
                 players[i]=new NeuralNetworkPlayer("Player" + i);
             }
         }
-
         for (int i = 0; i<maxIterations; i++) {
+            long totalScore =0;
             for (int h = 0; h<rounds; h++) {
                 for (int j = 0; j < playerNum; j++) {
-                    Player p1 = players[j];
+                    NeuralNetworkPlayer p1 = players[j];
                     for (int k = j%10; k < playerNum; k+=10) {
-                        System.out.print("\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b");
-                        System.out.printf("%s/%s [%s/%s]",
-                                          i, maxIterations,
-                                          h*playerNum*playerNum+j * playerNum + k,
-                                          rounds * playerNum * playerNum
-                        );
+                        p1.wrongMoves =0;
                         Player p2 = players[k];
                         Game g = new Game(p1, p2);
                         while (!g.hasEnded()) {
                             g.playOneTurn();
                         }
                         if (g.getWinner() == p1) {
-                            players[j].score+=20;
-                            players[k].score-=20;
+                            players[j].score+=10;
+                            players[k].score-=10;
                         } else if (g.getWinner() == p2) {
-                            players[j].score-=20;
-                            players[k].score+=20;
+                            players[j].score-=10;
+                            players[k].score+=10;
                         }
+                        System.out.print("\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b" +
+                                             "\b\b\b\b\b\b\b");
+                        System.out.printf("%s/%s [%s/%s] Player%s: %s wrong moves",
+                                          i, maxIterations,
+                                          h*playerNum*playerNum+j * playerNum + k,
+                                          rounds * playerNum * playerNum, j, p1.wrongMoves
+                        );
+                        totalScore += p1.score;
                     }
                 }
             }
+
             NeuralNetworkPlayer[] newPlayers = new NeuralNetworkPlayer[playerNum];
             Arrays.sort(players);
-            for (int j = 0; j < playerNum; j++) {
-                NeuralNetworkPlayer p = players[(int) Math.min(1, Math.abs(r.nextGaussian()))*(playerNum-1)];
+            System.out.println();
+            System.out.printf("Average score: %s; Best score: %s\n", 1.0*totalScore/playerNum*rounds, players[0].score);
+            newPlayers[0] = players[0];
+            for (int j = 1; j < playerNum; j++) {
+                int index =(int) Math.abs(r.nextGaussian()*0.2)*(playerNum-1);
+                if (index >= playerNum) index =0;
+                NeuralNetworkPlayer p = players[index];
                 newPlayers[j] = new NeuralNetworkPlayer("Player"+j);
                 newPlayers[j].setNeuralNetwork(r.nextDouble()<0.2?
                                                p.getNeuralNetwork().offspring()
